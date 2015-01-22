@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.inga.entity.User">
+
+  <resultMap type="User" id="userBean">
+  	 <id column="id" property="id"/>
+    <result column="name" property="name"/>
+    <result column="province" property="province"/>
+    <result column="usertype" property="usertype"/>
+    <result column="cardid" property="cardid"/>
+    <result column="work" property="work"/>
+    <result column="uptime" property="uptime"/>
+    <result column="remark" property="remark"/>
+    
+  </resultMap>
+
+  <select id="selectUserById" parameterType="map" resultMap="userBean">
+    select * from inga_user where id = #{id} and name = #{name}
+  </select>
+  
+   <select id="selectAllUser" parameterType="map" resultMap="userBean">
+    select * from inga_user
+  </select>
+  
+  <insert id="addUser" parameterType="map">
+  	insert into inga_user (id,name,province,usertype,cardid,work,uptime,remark)
+  	values(#{id},#{name},#{province},#{usertype},#{cardid},#{work},#{uptime},#{remark})
+  </insert>
+  
+  <delete id="deleteUser">
+  	delete from inga_user where id=#{id}
+  </delete>
+ <!--  
+  <update id="updateUserByCondition" parameterType="User">
+    update user
+    <set>
+      <if test="uname != null">
+        username = #{uname} ,
+      </if>
+      <if test="address != null">
+        address = #{address}
+      </if>
+    </set>
+    where id = #{id}
+  </update> -->
+
+</mapper>

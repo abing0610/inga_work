@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="UTF-8"?>  
+<!DOCTYPE struts PUBLIC  
+"-//Apache Software Foundation//DTD Struts Configuration 2.0//EN"  
+"http://struts.apache.org/dtds/struts-2.0.dtd">  
+<!--配置struts action -->  
+<struts>  
+
+	<constant name="struts.enable.DynamicMethodInvocation" value="false" />
+    <constant name="struts.devMode" value="true" />
+    
+     <!-- 指定action的后缀，默认为action --> 
+    <constant name="struts.action.extension" value="do" />  
+    <constant name="struts.i18n.encoding"  value="UTF-8"/>
+    
+	<package name="user" extends="struts-default,json-default" namespace="/">   
+		<global-results>
+            <result name="error">/error/error.jsp</result>
+        </global-results>
+        
+        <!-- 查询用户信息 -->
+		<action name="queryUser" class="com.inga.action.QueryAction" method="queryUser">   
+			<result name="success">/main/index.jsp</result>   
+			<result name="fail">/error/error.jsp</result>  
+		</action> 
+		
+		 <!-- 添加用户信息 -->
+		<action name="addUser" class="com.inga.action.QueryAction" method="addUser">   
+			<!-- <result name="succ">/main/index.jsp</result> -->
+			<result name="succ" type="json">
+            	<param name="root">result</param>
+            </result>
+			<result name="fail">/error/error.jsp</result>
+		</action>
+		
+		<action name="deleteUser" class="com.inga.action.QueryAction" method="deleteUser">   
+			<result name="succ">/main/index.jsp</result>
+			<result name="fail">/error/error.jsp</result>
+		</action> 
+		
+		 <!-- 获取tree的json -->
+       	<action name="getTreeJson" class="com.inga.action.TreeJsonAction" method="getTreeJson">   
+			<result name="succ" type="json">
+            	<param name="root">result</param>
+            </result>
+		</action>
+		<!-- 增加tree节点 -->
+		<action name="insertTreeNode" class="com.inga.action.TreeJsonAction" method="insertTreeNode">   
+			<result name="succ" type="json">
+            	<param name="root">result</param>
+            </result>
+		</action>
+		
+		<!--删除tree节点 -->
+		<action name="delTreeNode" class="com.inga.action.TreeJsonAction" method="delTreeNode">   
+			<result name="succ" type="json">
+            	<param name="root">result</param>
+            </result>
+		</action>
+		
+		<!-- 获取城市列表-->
+		<action name="getProvince" class="com.inga.action.ProvinceAction" method="getProvince">   
+			<result name="succ" type="json">
+            	<param name="root">result</param>
+            </result>
+		</action>
+		
+		<action name="backRecord" class="com.inga.action.BackRecordAction">   
+			<result name="success">/main/backsuccess.jsp</result>   
+			<result name="fail">/error/error.jsp</result>  
+		</action> 
+			
+		<action name="showSelectPro" class="com.inga.action.SelectShowAction" method="showSelectPro">   
+			<result name="succ" type="json">
+				<param name="root">result</param>
+			</result>   
+		</action> 
+		
+		<action name="test" class="com.inga.action.TestAction" method="test">   
+			<result name="succ">/login.jsp</result>  
+			<!-- <result name="succ" type="json">
+				<param name="root">result</param>
+			</result>  -->
+		</action> 
+		
+		<action name="login" class="com.inga.action.LoginAction" method="login">   
+			<result name="succ">/test.jsp</result>   
+			<result name="fail">/login.jsp</result>  
+		</action> 
+		 
+	</package>  
+	
+</struts>  
