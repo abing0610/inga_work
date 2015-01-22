@@ -27,8 +27,8 @@ import org.apache.http.protocol.HTTP;
 
 public class TicketMain {
 
-	private static String username = "inga0610";
-	private static String password = "nishishei0610";
+	private static String username = "123";
+	private static String password = "123";
 	private static Map<String, String> cookieData;
 	
 	public static void main(String[] args) {
