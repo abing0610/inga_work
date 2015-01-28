@@ -23,7 +23,13 @@ import org.apache.http.message.BasicNameValuePair;
 import org.apache.http.protocol.HTTP;
 import org.apache.http.util.EntityUtils;
 
+import com.inga.service.RequestHttpService;
 
+
+/*
+ * this class can do post something in   http://bbs.smartisan.cn
+ * 
+ */
 public class GetTest {
 	
 	//fastloginfield=email&username=1500811059@qq.com&password=&quickforward=yes&handlekey=ls
@@ -39,6 +45,12 @@ public class GetTest {
 	private static final String FORMHASH = "formhash";
 	private static final String USESIG = "usesig";
 	private static final String POSTTIME = "posttime";
+	//url
+	private static final String FORUM_PHP = "http://bbs.smartisan.cn/forum.php";
+	private static final String LOGIN_URL = "http://bbs.smartisan.cn/member.php?mod=logging&action=login&loginsubmit=yes&infloat=yes&lssubmit=yes&inajax=1";
+	private static final String POST_MESSAGE = "http://bbs.smartisan.cn/forum.php?mod=post&action=newthread&fid=2&topicsubmit=yes&infloat=yes&handlekey=fastnewpost&inajax=1";
+	
+	private static RequestHttpService httpService = new RequestHttpService();
 	
 	public static HttpClient getClient(){
 		HttpClient httpClient =new DefaultHttpClient();
@@ -51,11 +63,7 @@ public class GetTest {
 	 */
 	public static Map<String, String> initCookieMap() throws ClientProtocolException, IOException{
 		Map<String, String> cookieData = new HashMap<String, String>();
-		HttpClient httpClient = getClient();
-		HttpGet get = new HttpGet("http://bbs.smartisan.cn/forum.php");
-		get.setHeader("User-Agent", "Mozilla/5.0 (compatible; MSIE 9.0; Windows NT 6.1; Trident/5.0; BOIE9;ZHCN)");
-		
-		HttpResponse response = httpClient.execute(get);
+		HttpResponse response =  httpService.getHttpRequest(FORUM_PHP, null);
 		
 		Header[] headers = response.getAllHeaders();
 		for (int i = 0; i < headers.length; i++) {
@@ -75,21 +83,15 @@ public class GetTest {
 	 * 
 	 */
 	private static HttpResponse loginIndex() throws ParseException, IOException{
-		HttpClient httpClient = getClient();
+		
 		List<NameValuePair> para = new ArrayList<NameValuePair>();
 		para.add(new BasicNameValuePair(FAST_LOGIN_FIELD, "email"));
 		para.add(new BasicNameValuePair(USER_NAME, "1500811059@qq.com"));
 		para.add(new BasicNameValuePair(PASSWORD, ""));
 		para.add(new BasicNameValuePair(QUICK_FORWARD, "yes"));
 		para.add(new BasicNameValuePair(HANDLE_KEY, "ls"));
-		
-		HttpPost post = new HttpPost("http://bbs.smartisan.cn/member.php?mod=logging&action=login&loginsubmit=yes&infloat=yes&lssubmit=yes&inajax=1");
-		post.setHeader("User-Agent", "Mozilla/5.0 (compatible; MSIE 9.0; Windows NT 6.1; Trident/5.0; BOIE9;ZHCN)");
-		
-		UrlEncodedFormEntity uef = new UrlEncodedFormEntity(para, HTTP.UTF_8);
-		post.setEntity(uef);
-		
-		HttpResponse response = httpClient.execute(post);
+
+		HttpResponse response = httpService.postHttpRequest(LOGIN_URL, null, para);
 		
 		return response;
 	}
@@ -99,64 +101,28 @@ public class GetTest {
 	 * 查看是否登录成功
 	 */
 	private static HttpResponse getForumPHP(Map<String, String> cookieData) throws ClientProtocolException, IOException{
-		HttpClient httpClient = getClient();
-		HttpGet get = new HttpGet("http://bbs.smartisan.cn/forum.php");
-		get.setHeader("User-Agent", "Mozilla/5.0 (compatible; MSIE 9.0; Windows NT 6.1; Trident/5.0; BOIE9;ZHCN)");
-		if (cookieData != null) {
-			boolean first = true;
-			StringBuilder cookie = new StringBuilder();
-			for (Map.Entry<String, String> me : cookieData.entrySet()) {
-				if (first) {
-					first = false;
-				} else {
-					cookie.append(";");
-				}
-				cookie.append(me.getKey() + "=" + me.getValue());
-			}
-			get.setHeader("Cookie", cookie.toString());
-		}
-
-
-		HttpResponse response = httpClient.execute(get);
+		HttpResponse response = httpService.getHttpRequest(FORUM_PHP, cookieData);
 		
 		return response;
+		
 	}
 	/*
 	 * 发表帖子
 	 */
 	private static HttpResponse postMessageForum(Map<String, String> cookieData,String formH) throws ClientProtocolException, IOException{
-		HttpClient httpClient = getClient();
+		
 		////subject=test&message=work&formhash=4aa70927&usesig=1&posttime=1422430046
 		List<NameValuePair> para = new ArrayList<NameValuePair>();
 		para.add(new BasicNameValuePair(SUBJECT, "inga Hello!"));
 		para.add(new BasicNameValuePair(MESSAGE, "hahhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhh"));
 		para.add(new BasicNameValuePair(FORMHASH, formH));
 		para.add(new BasicNameValuePair(USESIG, "1"));
-//		para.add(new BasicNameValuePair(POSTTIME, "1422432547"));
+		para.add(new BasicNameValuePair(POSTTIME, "1422432547"));
 		
-		HttpPost post = new HttpPost("http://bbs.smartisan.cn/forum.php?mod=post&action=newthread&fid=2&topicsubmit=yes&infloat=yes&handlekey=fastnewpost&inajax=1");
-		post.setHeader("User-Agent", "Mozilla/5.0 (compatible; MSIE 9.0; Windows NT 6.1; Trident/5.0; BOIE9;ZHCN)");
-		
-		if (cookieData != null) {
-			boolean first = true;
-			StringBuilder cookie = new StringBuilder();
-			for (Map.Entry<String, String> me : cookieData.entrySet()) {
-				if (first) {
-					first = false;
-				} else {
-					cookie.append(";");
-				}
-				cookie.append(me.getKey() + "=" + me.getValue());
-			}
-			post.setHeader("Cookie", cookie.toString());
-		}
-		
-		UrlEncodedFormEntity uef = new UrlEncodedFormEntity(para, HTTP.UTF_8);
-		post.setEntity(uef);
-		
-		HttpResponse response = httpClient.execute(post);
+		HttpResponse response = httpService.postHttpRequest(POST_MESSAGE, cookieData, para);
 		
 		return response;
+		
 	}
 	
 	/*
@@ -164,24 +130,7 @@ public class GetTest {
 	 */
 	private static HttpResponse humpToOtherPage(Map<String, String> cookieData) throws ClientProtocolException, IOException{
 		
-		HttpClient httpClient = getClient();
-		HttpGet get = new HttpGet("http://bbs.smartisan.cn/forum.php");
-		get.setHeader("User-Agent", "Mozilla/5.0 (compatible; MSIE 9.0; Windows NT 6.1; Trident/5.0; BOIE9;ZHCN)");
-		if (cookieData != null) {
-			boolean first = true;
-			StringBuilder cookie = new StringBuilder();
-			for (Map.Entry<String, String> me : cookieData.entrySet()) {
-				if (first) {
-					first = false;
-				} else {
-					cookie.append(";");
-				}
-				cookie.append(me.getKey() + "=" + me.getValue());
-			}
-			get.setHeader("Cookie", cookie.toString());
-		}
-
-		HttpResponse response = httpClient.execute(get);
+		HttpResponse response = httpService.getHttpRequest(FORUM_PHP, cookieData);
 		
 		return response;
 	}
@@ -229,8 +178,6 @@ public class GetTest {
 		HttpEntity entity2 = res.getEntity();
 		String postStr = EntityUtils.toString(entity2).trim();
 		System.out.println(postStr);
-		
-		
 		
 		
 	}
