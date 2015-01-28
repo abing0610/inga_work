@@ -12,6 +12,10 @@ struts2 spring mybatis easyui ztree。只是简单的几个页面。
 没有实现分页，项目空闲时间会做一下。
 
 
+HttpClient工程是登录bbs.smartisan.cn网站，并发布帖子的工程。
+每小时限制发布五个帖子。
+代码没有完全整理，比较乱，在一个文件中，需要自己输入自己的账号和密码，运行即可。a
+
 
 
 
