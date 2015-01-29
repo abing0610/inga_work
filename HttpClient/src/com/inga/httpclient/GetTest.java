@@ -29,8 +29,18 @@ import com.inga.service.RequestHttpService;
 /*
  * this class can do post something in   http://bbs.smartisan.cn
  * 
+ * 这个程序，只能在灌水区，进行发表帖子。
  */
 public class GetTest {
+	
+	//这里是输入你的用户名和密码的地方。用的是email方式登录。
+	private static final String LOGIN_NAME = "1500811059@qq.com";
+	private static final String LOGIN_PASSWOORD="";
+	
+	//这里是要输入的标题
+	private static final String TITLE = "罗永浩，永远支持你!";
+	//这里是要输入的内容，只支持文字，不支持图片
+	private static final String MESSAGE_BOX = "但是我没有买锤子手机。。。。。。坐等T2.";
 	
 	//fastloginfield=email&username=1500811059@qq.com&password=&quickforward=yes&handlekey=ls
 	private static Map<String, String> cookie = null; 
@@ -86,8 +96,8 @@ public class GetTest {
 		
 		List<NameValuePair> para = new ArrayList<NameValuePair>();
 		para.add(new BasicNameValuePair(FAST_LOGIN_FIELD, "email"));
-		para.add(new BasicNameValuePair(USER_NAME, "1500811059@qq.com"));
-		para.add(new BasicNameValuePair(PASSWORD, ""));
+		para.add(new BasicNameValuePair(USER_NAME, LOGIN_NAME));
+		para.add(new BasicNameValuePair(PASSWORD, LOGIN_PASSWOORD));
 		para.add(new BasicNameValuePair(QUICK_FORWARD, "yes"));
 		para.add(new BasicNameValuePair(HANDLE_KEY, "ls"));
 
@@ -113,8 +123,8 @@ public class GetTest {
 		
 		////subject=test&message=work&formhash=4aa70927&usesig=1&posttime=1422430046
 		List<NameValuePair> para = new ArrayList<NameValuePair>();
-		para.add(new BasicNameValuePair(SUBJECT, "inga Hello!"));
-		para.add(new BasicNameValuePair(MESSAGE, "hahhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhh"));
+		para.add(new BasicNameValuePair(SUBJECT, TITLE));
+		para.add(new BasicNameValuePair(MESSAGE, MESSAGE_BOX));
 		para.add(new BasicNameValuePair(FORMHASH, formH));
 		para.add(new BasicNameValuePair(USESIG, "1"));
 		para.add(new BasicNameValuePair(POSTTIME, "1422432547"));
