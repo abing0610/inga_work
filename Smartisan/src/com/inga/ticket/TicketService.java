@@ -22,6 +22,8 @@ import org.apache.http.util.EntityUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import com.inga.ticket.comm.Constants;
+
 public class TicketService {
 	
 	private static final Logger logger = LoggerFactory.getLogger(TicketService.class);
@@ -31,6 +33,9 @@ public class TicketService {
 		try {
 			String responseHTML = postHttpRequestAsString(httpClient, "https://kyfw.12306.cn/otn/passcodeNew/checkRandCodeAnsyn", null,
 					cookieData);
+			
+			System.out.println(responseHTML);
+			
 			//{"loginRand":"628","randError":"Y"}
 			return StringUtils.substringBetween(responseHTML, "{\"loginRand\":\"", "\",\"randError\":\"Y\"}");
 		} catch (Exception e) {
@@ -47,8 +52,8 @@ public class TicketService {
 				+ ".login.jpg");
 		try {
 //			String url = "https://dynamic.12306.cn/otsweb/passCodeNewAction.do?module=login&rand=sjrand";
-			String url = "https://kyfw.12306.cn/otn/passcodeNew/getPassCodeNew?module=login&rand=sjrand";
-			HttpResponse response = getHttpRequest(httpClient, url, null, cookieData);
+//			String url = "https://kyfw.12306.cn/otn/passcodeNew/getPassCodeNew?module=login&rand=sjrand";
+			HttpResponse response = getHttpRequest(httpClient, Constants.RAND_CODE_URL, null, cookieData);
 			HttpEntity entity = response.getEntity();
 			InputStream instream = entity.getContent();
 			OutputStream out = new FileOutputStream(file);
@@ -84,7 +89,7 @@ public class TicketService {
 	 * @param cookieData
 	 * @return
 	 */
-	public static String postHttpRequestAsString(HttpClient httpClient, String url, List<NameValuePair> parameters,
+	public static synchronized String postHttpRequestAsString(HttpClient httpClient, String url, List<NameValuePair> parameters,
 			Map<String, String> cookieData) {
 		try {
 			HttpResponse response = postHttpRequest(httpClient, url, parameters, cookieData);
@@ -111,7 +116,7 @@ public class TicketService {
 	 * @param cookieData
 	 * @return
 	 */
-	public static HttpResponse postHttpRequest(HttpClient httpclient, String url, List<NameValuePair> parameters,
+	public static synchronized HttpResponse postHttpRequest(HttpClient httpclient, String url, List<NameValuePair> parameters,
 			Map<String, String> cookieData) {
 		try {
 			logger.debug("------------------------------------------------------------------------");
@@ -163,7 +168,7 @@ public class TicketService {
 		}
 	}
 	
-	public static HttpResponse getHttpRequest(HttpClient httpClient, String url, List<NameValuePair> parameters,
+	public static synchronized HttpResponse  getHttpRequest(HttpClient httpClient, String url, List<NameValuePair> parameters,
 			Map<String, String> cookieData) {
 		// ¥¥Ω®GET«Î«Û
 		try {
@@ -222,7 +227,7 @@ public class TicketService {
 			return response;
 		} catch (Exception e) {
 			throw new IllegalStateException(e);
-		}
+		} 
 	}
 
 }
