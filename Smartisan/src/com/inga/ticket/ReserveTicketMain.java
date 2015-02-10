@@ -3,6 +3,7 @@ package com.inga.ticket;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+import java.util.concurrent.TimeUnit;
 
 import net.sf.json.JSONObject;
 
@@ -35,7 +36,7 @@ public class ReserveTicketMain {
 	public HttpResponse leftTickeLog(Map<String, String> cookie){
 		HttpClient htp = TicketMain.gethttpclient();
 		List<NameValuePair> para = new ArrayList<NameValuePair>();
-		para.add(new BasicNameValuePair(Constants.Q_TRAIN_DATE, "2015-02-03"));
+		para.add(new BasicNameValuePair(Constants.Q_TRAIN_DATE, TicketMain.FROM_DATE));
 		para.add(new BasicNameValuePair(Constants.Q_FROM_STATION, "JNK"));
 		para.add(new BasicNameValuePair(Constants.Q_TO_STATION, "WFK"));
 		para.add(new BasicNameValuePair(Constants.Q_PURPOSE_CODES, "ADULT"));
@@ -56,7 +57,7 @@ public class ReserveTicketMain {
 	public HttpResponse leftTickeQueryT(Map<String, String> cookie){
 		HttpClient htp = TicketMain.gethttpclient();
 		List<NameValuePair> para = new ArrayList<NameValuePair>();
-		para.add(new BasicNameValuePair(Constants.Q_TRAIN_DATE, "2015-02-03"));
+		para.add(new BasicNameValuePair(Constants.Q_TRAIN_DATE, TicketMain.FROM_DATE));
 		para.add(new BasicNameValuePair(Constants.Q_FROM_STATION, "JNK"));
 		para.add(new BasicNameValuePair(Constants.Q_TO_STATION, "WFK"));
 		para.add(new BasicNameValuePair(Constants.Q_PURPOSE_CODES, "ADULT"));
@@ -68,14 +69,14 @@ public class ReserveTicketMain {
 	
 	/**
 	 * 处理json数据
+	 * @throws InterruptedException 
 	 * 
 	 */
 	
-	public List<Map<String, Object>> dealJsonData(String respJson){
+	public List<Map<String, Object>> dealJsonData(String respJson) throws InterruptedException{
 		List<Map<String, Object>> list = new ArrayList<Map<String,Object>>();
 		JSONClass jc = new JSONClass();
 		list = jc.jsonToMap(respJson);
-		
 		
 		return list;
 	}

@@ -12,12 +12,14 @@ import net.sf.json.JSONObject;
 public class JSONClass {
 	
 	public List<Map<String, Object>> jsonToMap(String data){
-		if (data.substring(0, 2).indexOf("[") == -1) {
+		System.out.println(data);
+		if (data.indexOf("[") != 0) {
 			data = "[" + data +"]";
 		}
+		System.out.println(data);
 		JSONArray jsonArr = JSONArray.fromObject(data);
         List<Map<String, Object>> list = new ArrayList<Map<String,Object>>();
-        Iterator<JSONObject> it = jsonArr.iterator();
+		Iterator<JSONObject> it = jsonArr.iterator();
         while(it.hasNext()){
             JSONObject json2 = it.next();
             list.add(parseJSON2Map(json2.toString()));

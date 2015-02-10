@@ -123,7 +123,47 @@ public class TicketService {
 			logger.debug("POST URL: " + url);
 
 			HttpPost post = new HttpPost(url);
-			post.setHeader("User-Agent", "Mozilla/5.0 (compatible; MSIE 9.0; Windows NT 6.1; Trident/5.0; BOIE9;ZHCN)");
+			//post.setHeader("User-Agent", "Mozilla/5.0 (compatible; MSIE 9.0; Windows NT 6.1; Trident/5.0; BOIE9;ZHCN)");
+			post.setHeader("User-Agent", "Mozilla/5.0 (Windows NT 6.1; WOW64; Trident/7.0; rv:11.0) like Gecko");
+			//User-Agent	Mozilla/5.0 (Windows NT 6.1; WOW64; Trident/7.0; rv:11.0) like Gecko
+			if (url.indexOf("/login/checkUser") > 0) {
+//				post.setHeader("Accept", "*/*");
+//				post.setHeader("Host", "kyfw.12306.cn");
+//				post.setHeader("Accept-Language", "zh-CN");
+//				post.setHeader("Accept-Encoding", "gzip, deflate");
+//				post.setHeader("Content-Type", "application/x-www-form-urlencoded; charset=UTF-8");
+//				post.setHeader("X-Requested-With", "XMLHttpRequest");
+//				post.setHeader("Referer", "https://kyfw.12306.cn/");
+//				post.setHeader("Cookie", "tmp");
+//				post.setHeader("Connection", "keep-alive");
+//				post.setHeader("Pragma", "no-cache");
+//				post.setHeader("Cache-Control", "no-cache");
+			}else if (url.indexOf("submitOrderRequest") > 0) {
+				post.setHeader("Accept", "*/*");
+				post.setHeader("Host", "kyfw.12306.cn");
+				post.setHeader("Accept-Language", "zh-CN");
+				post.setHeader("Accept-Encoding", "gzip, deflate");
+				post.setHeader("Content-Type", "application/x-www-form-urlencoded; charset=UTF-8");
+				post.setHeader("X-Requested-With", "XMLHttpRequest");
+				post.setHeader("Referer", "https://kyfw.12306.cn/otn/leftTicket/init");
+				post.setHeader("Cookie", "tmp");
+				post.setHeader("Connection", "keep-alive");
+				post.setHeader("Pragma", "no-cache");
+				post.setHeader("Cache-Control", "no-cache");
+				//https://kyfw.12306.cn/otn/leftTicket/init
+			}else if (url.indexOf("initDc") > 0) {
+				post.setHeader("Host", "kyfw.12306.cn");
+				post.setHeader("User-Agent", "Mozilla/5.0 (Windows NT 5.1; rv:34.0) Gecko/20100101 Firefox/34.0");
+				post.setHeader("Accept", "*/*");
+				post.setHeader("Accept-Language", "zh-cn,zh;q=0.8,en-us;q=0.5,en;q=0.3");
+				post.setHeader("Accept-Encoding", "gzip, deflate");
+				post.setHeader("Referer", "https://kyfw.12306.cn/");
+				post.setHeader("Cookie", "tmp");
+				post.setHeader("Connection", "keep-alive");
+				post.setHeader("Cache-Control", "no-cache");
+				post.setHeader("Accept", "text/html,application/xhtml+xml,application/xml,*/*");
+				post.setHeader("Content-Type", "application/x-www-form-urlencoded");
+			}
 			if (cookieData != null) {
 				boolean first = true;
 				StringBuilder cookie = new StringBuilder();
