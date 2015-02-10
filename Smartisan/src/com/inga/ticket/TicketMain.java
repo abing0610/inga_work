@@ -59,8 +59,8 @@ import com.inga.ticket.comm.JSONClass;
 
 public class TicketMain {
 
-	private static String username = "inga0610";
-	private static String password = "nishishei0610";
+	private static String username = "";
+	private static String password = "";
 	private static Map<String, String> cookieData;
 	private static final Pattern PATTERN_DYNAMIC_JS = Pattern.compile("/otn/dynamicJs/(\\w+)");
 	private static final Pattern PATTERN_LOGIN_KEY = Pattern.compile("var key='(\\w+)'");
