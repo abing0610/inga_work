@@ -6,10 +6,6 @@ Smartisan 工程打算实现12306订票的功能。
 之前参考的是12306-hunter工程。
 
 
-inga 工程是之前随便写的一个web工程。
-struts2 spring mybatis easyui ztree。只是简单的几个页面。
-简单的功能实现了。
-没有实现分页，项目空闲时间会做一下。
 
 
 HttpClient工程是登录bbs.smartisan.cn网站，并发布帖子的工程。
